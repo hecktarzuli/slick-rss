@@ -63,8 +63,7 @@ port.onMessage.addListener(function(msg) {
         }
     }
 
-    if (msg.type == "unreadtotalchanged")
-    {
+    if (msg.type == "unreadtotalchanged") {
         UpdateTitle();
     }
 });
@@ -256,7 +255,7 @@ function MarkFeedRead(feedID) {
 
 function MarkItemRead(itemID) {
     var feedID = feeds[selectedFeedKey].id;
-		var className = "feedPreviewContainer" + options.readitemdisplay;
+		var className = " feedPreviewContainer" + options.readitemdisplay;
     var expireMs = new Date().getTime() + 5184000000; // 2 months;
 
     if (bgPage.unreadInfo[feedID].readitems[itemID] == null) {
@@ -405,12 +404,15 @@ function RenderFeed() {
         //feedMarkRead.setAttribute("id", 'markItemRead' + itemID);
 
         if (feedID == bgPage.readLaterFeedID) {
-        	  $(feedMarkRead).click({i:i},function(event){UnMarkItemReadLater(event.data.i);return false;});
+        	  $(feedMarkRead).click({i:i}, function(event) {
+								UnMarkItemReadLater(event.data.i);
+								return false;
+						});
             //ClickBuilder(feedMarkRead, "UnMarkItemReadLater(" + i + ");");
         } else {
         	  $(feedMarkRead).click({itemID: itemID}, function(event) {
-        	  	MarkItemRead(event.data.itemID);
-        	  	return false;
+	        	  	MarkItemRead(event.data.itemID);
+	        	  	return false;
         	  });
             //ClickBuilder(feedMarkRead, "MarkItemRead(\"" + itemID + "\");");
         }
@@ -431,7 +433,13 @@ function RenderFeed() {
                 //ClickBuilder(feedLink, "UnMarkItemReadLater(" + i + ");");
             }
         } else {
-        	  $(feedLink).click({feedID:feedID, itemID:itemID},function(event){MarkItemRead(event.data.itemID);if (options.markreadonclick){MarkFeedRead(event.data.feedID);} return false;});
+        	  $(feedLink).click({feedID:feedID, itemID:itemID},function(event) {
+								MarkItemRead(event.data.itemID);
+								if (options.markreadonclick) {
+										MarkFeedRead(event.data.feedID);
+								}
+								return false;
+						});
             //ClickBuilder(feedLink, "MarkItemRead(\"" + itemID + "\");if (options.markreadonclick){MarkFeedRead(" + feedID + ");}");
         }
 
@@ -564,11 +572,7 @@ function RenderFeed() {
         feedContainer.appendChild(feedPublished);
         feedContainer.appendChild(feedAuthor);
 
-        feedTd = document.createElement("td");
-        feedTd.style.width = colWidth;
-        feedTd.appendChild(feedContainer);
-
-        currentTr.appendChild(feedTd);
+        currentTr.appendChild(feedContainer);
         columnCount++;
     }
 }

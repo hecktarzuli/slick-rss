@@ -107,10 +107,6 @@ body
 	width: 100%;
 }
 
-#feedPreview td {
-	vertical-align: top;
-}
-
 .feedPreviewContainerCondensed .feedPreviewSummary, .feedPreviewContainerCondensed .feedPreviewDate, .feedPreviewContainerCondensed .feedPreviewAuthor {
 	display: none;
 }
@@ -133,6 +129,7 @@ body
 
 .feedPreviewContainer {
 	border: 1px solid #96B6DF;
+	margin: 5px;
 }
 
 /* And the king decreed, let there be wrapping for all */
@@ -146,25 +143,21 @@ body
 	padding: 5px;
 }
 
-.feedPreviewTitle a
-{
+.feedPreviewTitle a {
 	text-decoration: none;
 	color: Black;
 	font-size: 12px;
 }
 
-.feedPreviewTitle a:hover
-{
+.feedPreviewTitle a:hover {
 	text-decoration: underline;
 }
 
-.feedPreviewSummary
-{
+.feedPreviewSummary {
 	padding: 5px;
 }
 
-.feedPreviewDate
-{
+.feedPreviewDate {
 	padding: 5px;
 	font-size: smaller;
 	float: left;
@@ -172,15 +165,13 @@ body
 	width: 1%;
 }
 
-.feedPreviewAuthor
-{
+.feedPreviewAuthor {
 	padding: 5px;
 	font-size: smaller;
 	text-align: right;
 }
 
-.feedPreviewMarkRead
-{
+.feedPreviewMarkRead {
 	float: right;
 	border: 1px solid transparent;
 	cursor: pointer;
@@ -188,8 +179,7 @@ body
 	height: 12px;
 }
 
-.feedPreviewReadLater
-{
+.feedPreviewReadLater {
 	float: right;
 	margin-top: -1px;
 	margin-right: 7px;
@@ -198,8 +188,7 @@ body
 	height: 16px;
 }
 
-.selectedFeed
-{
+.selectedFeed {
 	background-color: #E5EEFA;
 	border: 1px solid #A9CAF8 !important;
 	color: #285491;

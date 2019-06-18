@@ -1,12 +1,12 @@
 
 body
 {
-	overflow: hidden;	
+	overflow: hidden;
 }
 
 #containerArea
 {
-	width: 100%;	
+	width: 100%;
 	height: 100%;
 }
 
@@ -14,7 +14,7 @@ body
 {
 	overflow-y: auto;
 	overflow-x: hidden;
-	background-color: #FCFCFC;	
+	background-color: #FCFCFC;
 	border-right: 1px solid #DEDEDE;
 }
 
@@ -24,27 +24,27 @@ body
 }
 
 #feedHeader
-{	
-	font-size: 15px;	
+{
+	font-size: 15px;
 	background-color: #666d7c;
-	color: #AAAAAA;	
-	padding-left: 10px;	
+	color: #AAAAAA;
+	padding-left: 10px;
 }
 
 #feedHeader a
 {
 	font-size: 12px;
 	color: white;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 #feedHeader a:hover
 {
-	text-decoration: underline;	
+	text-decoration: underline;
 }
 
 #feedList
-{ 
+{
 	list-style-type: none;
 	margin: 0px;
 	padding: 10px;
@@ -54,7 +54,7 @@ body
 {
 	padding: 3px;
 	white-space: nowrap;
-	cursor: pointer;	
+	cursor: pointer;
 	border: 1px solid #FCFCFC;
 	margin-bottom: 1px;
 }
@@ -66,96 +66,82 @@ body
 
 #feedArea, #workArea
 {
-	vertical-align: top;	
+	vertical-align: top;
 	height: 99%; /* keeps headers on top when there isn't enough content since master table is 100% height */
 }
 
-#feedsLoading
-{
-	display: none;	
+#feedsLoading {
+	display: none;
 	width: 99%;
 	color: White;
-	font-size: small;	
+	font-size: small;
 }
 
-#feedsLoading td+td
-{
+#feedsLoading td+td {
 	width: 99%;
 	padding: 10px;
 }
 
-#feedsLoadingProgressBox
-{
+#feedsLoadingProgressBox {
 	border: 1px solid #AAAAAA;
 	width: 100%;
 }
 
-#feedsLoadingProgress
-{
+#feedsLoadingProgress {
 	width: 0%;
 	height: 5px;
-	background-color: #EEEEEE;	
+	background-color: #EEEEEE;
 }
 
-#feedsOptions
-{
-	white-space: nowrap;	
+#feedsOptions{
+	white-space: nowrap;
 }
 
-.loading tr > td:first-child
-{
+.loading tr > td:first-child {
 	background-image: url("loading.gif") !important;
 }
 
-
-#feedPreview
-{
+#feedPreview {
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 12px;
-	width: 100%;	
+	width: 100%;
 }
 
-
-#feedPreview td
-{
-	vertical-align: top;	
+#feedPreview td {
+	vertical-align: top;
 }
 
-
-.feedPreviewContainerCondensed .feedPreviewSummary, .feedPreviewContainerCondensed .feedPreviewDate, .feedPreviewContainerCondensed .feedPreviewAuthor
-{
-	display: none;	
+.feedPreviewContainerCondensed .feedPreviewSummary, .feedPreviewContainerCondensed .feedPreviewDate, .feedPreviewContainerCondensed .feedPreviewAuthor {
+	display: none;
 }
 
-.feedPreviewContainerRead
-{	
-	border: 1px solid #D0D0D0 !important;		
+.feedPreviewContainerGray {
+	border: 1px solid #D0D0D0 !important;
 }
 
-.feedPreviewContainerRead .feedPreviewTitle
-{	
-	background-color: #EFEFEF;		
+.feedPreviewContainerGray .feedPreviewTitle {
+	background-color: #EFEFEF;
 }
 
-.feedPreviewContainerRead .feedPreviewMarkRead, .feedPreviewContainerRead .feedPreviewReadLater 
-{
-	display: none;	
+.feedPreviewContainerGray .feedPreviewMarkRead, .feedPreviewContainerGray .feedPreviewReadLater {
+	display: none;
 }
 
-.feedPreviewContainer
-{	
+.feedPreviewContainerHidden {
+	display: none;
+}
+
+.feedPreviewContainer {
 	border: 1px solid #96B6DF;
 }
 
 /* And the king decreed, let there be wrapping for all */
-.feedPreviewContainer *
-{
-	white-space: normal;	
+.feedPreviewContainer * {
+	white-space: normal;
 }
 
-.feedPreviewTitle
-{
-	background-color: #D7E6F8;	
+.feedPreviewTitle {
+	background-color: #D7E6F8;
 	margin: 0px;
 	padding: 5px;
 }
@@ -163,24 +149,24 @@ body
 .feedPreviewTitle a
 {
 	text-decoration: none;
-	color: Black;	
+	color: Black;
 	font-size: 12px;
 }
 
 .feedPreviewTitle a:hover
 {
-	text-decoration: underline;	
+	text-decoration: underline;
 }
 
 .feedPreviewSummary
 {
-	padding: 5px;	
+	padding: 5px;
 }
 
 .feedPreviewDate
 {
-	padding: 5px;	
-	font-size: smaller;	
+	padding: 5px;
+	font-size: smaller;
 	float: left;
 	white-space: nowrap;
 	width: 1%;
@@ -188,15 +174,15 @@ body
 
 .feedPreviewAuthor
 {
-	padding: 5px;	
-	font-size: smaller;	
-	text-align: right;	
+	padding: 5px;
+	font-size: smaller;
+	text-align: right;
 }
 
 .feedPreviewMarkRead
 {
 	float: right;
-	border: 1px solid transparent;	
+	border: 1px solid transparent;
 	cursor: pointer;
 	width: 12px;
 	height: 12px;
@@ -214,48 +200,47 @@ body
 
 .selectedFeed
 {
-	background-color: #E5EEFA;	
+	background-color: #E5EEFA;
 	border: 1px solid #A9CAF8 !important;
 	color: #285491;
 }
 
 #noFeedsManaged, #noFeedsBookmarks
 {
-	font-size: 12px;	
+	font-size: 12px;
 	padding: 5px;
 }
 
 #feedError
-{	
+{
 	font-size: 12px;
-	padding: 5px;	
+	padding: 5px;
 }
 
 #feedErrorDetail
 {
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #feedErrorMessage
 {
 	color: Red;
-	font-weight: normal;	
+	font-weight: normal;
 }
 
 
 #feedTitle9999999999
 {
-	border-bottom: 1px solid #DEDEDE !important;	
+	border-bottom: 1px solid #DEDEDE !important;
 }
 
 #feedTitle9999999999[class=selectedFeed]
 {
-	border-bottom: 1px solid #A9CAF8 !important;	
+	border-bottom: 1px solid #A9CAF8 !important;
 }
 
 #noItems
 {
 	padding: 5px;
-	font-size: 12px;	
+	font-size: 12px;
 }
-

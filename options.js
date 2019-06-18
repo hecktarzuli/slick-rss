@@ -42,7 +42,7 @@ function SetupScreen()
     ShowDateSample(false);
     document.getElementById("homePageURL").innerText = chrome.extension.getURL("viewer.html");
     
-    if(bgPage.snifferID != null)
+    if (bgPage.snifferID != null)
     {
         document.getElementById("snifferInfo").innerText = bgPage.snifferName + " (v" + bgPage.snifferVersion + ")";
         document.getElementById("snifferInfo").style.color = "black";
@@ -58,25 +58,25 @@ function Save()
 {
     var maxItems = document.getElementById("maxItems").value;
     
-    if(!/^\d+$/.test(maxItems) || maxItems == "0")
+    if (!/^\d+$/.test(maxItems) || maxItems == "0")
     {
         alert("'Max Items' seems invalid.  It's the max number of items in a feed preview and should be > 0");
         return;
     }
     
-    if(!/^\d+$/.test(document.getElementById("checkInterval").value))
+    if (!/^\d+$/.test(document.getElementById("checkInterval").value))
     {
         alert("'Update Interval' seems invalid.  It's the number of minutes between fetching unread counts.");
         return;
     }
     
-    if(document.getElementById("checkInterval").value == 0)
+    if (document.getElementById("checkInterval").value == 0)
     {
         alert("'Update Interval' must be > 0.");
         return;
     }
     
-    if(!/^\d+$/.test(document.getElementById("markReadAfter").value))
+    if (!/^\d+$/.test(document.getElementById("markReadAfter").value))
     {
         alert("'Mark feed read after' seems invalid.  It's the number of seconds after you've viewed a feed before it's marked read.");
         return;
@@ -104,7 +104,7 @@ function Save()
     
     localStorage["options"] = JSON.stringify(bgPage.options);
    
-    if(!bgPage.options.readlaterenabled)
+    if (!bgPage.options.readlaterenabled)
     {
        delete localStorage["readlater"];       
     }
@@ -128,13 +128,13 @@ function FillFolderList(nodes)
     
     GetBookmarkNodes(nodes[0], arr, "");        
     
-    for(var i = 0;i < arr.length; i++)
+    for (var i = 0;i < arr.length; i++)
     {
         option = document.createElement("option");
         option.setAttribute("value", arr[i][0]);
         option.innerHTML = arr[i][1]; 
         
-        if(arr[i][0] == bgPage.options.feedfolderid)
+        if (arr[i][0] == bgPage.options.feedfolderid)
         {
             option.setAttribute("selected", "selected");
         }
@@ -146,9 +146,9 @@ function FillFolderList(nodes)
 // recursively fills array with ids and titles of folders in the bookmark tree
 function GetBookmarkNodes(node, arr, depth)
 { 
-    for(var i = 0; i < node.children.length; i++)
+    for (var i = 0; i < node.children.length; i++)
     {       
-        if(node.children[i].url == null)
+        if (node.children[i].url == null)
         {  
             var detail = new Array(2);
             detail[0] = node.children[i].id;
@@ -174,7 +174,7 @@ function EditDateFormat()
 
 function ShowDateSample(saveDate)
 {
-    if(saveDate)
+    if (saveDate)
     {
         bgPage.options.dateformat = document.getElementById("dateFormat").value;
     }

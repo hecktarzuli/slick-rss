@@ -22,18 +22,18 @@ function Add()
     var maxOrder = 0;
     var itemOrder = 0;
     
-    if(!IsValid(title, url, maxItems, order))
+    if (!IsValid(title, url, maxItems, order))
     {
         return;
     }
     
     AddRow(feeds.push(bgPage.CreateNewFeed(title, url, maxItems, order)) - 1);    
     
-    for(feedKey in feeds)
+    for (feedKey in feeds)
     {
         itemOrder = parseInt(feeds[feedKey].order);
         
-        if(itemOrder > maxOrder)
+        if (itemOrder > maxOrder)
         {
             maxOrder = itemOrder;
         }
@@ -48,43 +48,43 @@ function Add()
 function IsValid(title, url, maxItems, order)
 {
 
-    if(title == "")
+    if (title == "")
     {
         alert("A title is required.  Name it something useful like 'My Awesome Gaming News Feed'.");
         return false;        
     }
     
-    if(url == "")
+    if (url == "")
     {
         alert("A URL is required.  It's the full HTTP path to your feed.");
         return false;
     }
     
-    if(maxItems == "")
+    if (maxItems == "")
     {
         alert("Max items is required.  It's the max number of items you want me to show you for this feed.");
         return false;
     }
     
-    if(maxItems == "0")
+    if (maxItems == "0")
     {
         alert("Ha ha funny person.  You need at least 1 max item in order to show you a feed.");
         return false;
     }   
     
-    if(!/^\d+$/.test(maxItems))
+    if (!/^\d+$/.test(maxItems))
     {
         alert("Very funny, you and I both know '" + maxItems + "' isn't a value max item number.");
         return false;
     }
     
-    if(order == "")
+    if (order == "")
     {
         alert("Order is required.  It's the order I'll display your feeds in the viewer.");
         return false;
     }
     
-    if(!/^\d+$/.test(order))
+    if (!/^\d+$/.test(order))
     {
         alert("Very funny, you and I both know '" + order + "' isn't a value order.");
         return false;
@@ -151,13 +151,13 @@ function MarkDelete(row)
 {
     var marked = (row.className == "markDelete");
     
-    if(!marked)
+    if (!marked)
     {
         row.setAttribute("class", "markDelete");
     }
     else    
     {
-        if(row != lastBadRow)
+        if (row != lastBadRow)
         {
             row.setAttribute("class", "");
         }
@@ -182,15 +182,15 @@ function Save()
     var maxItems;
     var order;
     
-    if(lastBadRow != null && lastBadRow.className != "markDelete")
+    if (lastBadRow != null && lastBadRow.className != "markDelete")
     {
         lastBadRow.className = "";
     }
     
-    for(feedKey in feeds)
+    for (feedKey in feeds)
     {
         // skip read later feed
-        if(feedKey == 0)
+        if (feedKey == 0)
         {
             continue;
         }
@@ -202,7 +202,7 @@ function Save()
         maxItems = row.childNodes[2].childNodes[0].value;
         order = row.childNodes[3].childNodes[0].value;            
         
-        if(row.className != "markDelete" && !IsValid(title, url, maxItems, order))
+        if (row.className != "markDelete" && !IsValid(title, url, maxItems, order))
         {
             row.className = "badRow";
             lastBadRow = row;
@@ -216,11 +216,11 @@ function Save()
     }
     
     // delete feeds that are marked, start from end so indexes don't get screwed up
-    for(i = feeds.length - 1;i > 0;i--)
+    for (i = feeds.length - 1;i > 0;i--)
     {
         row = document.getElementById(i);
         
-        if(row.className == "markDelete")
+        if (row.className == "markDelete")
         {    
             feeds.splice(i, 1);
         }
@@ -247,10 +247,10 @@ function ShowFeeds()
     var maxOrder = 0;
     var itemOrder = 0;    
     
-    for(feedKey in feeds)
+    for (feedKey in feeds)
     {
         // skip read later feed
-        if(feedKey == 0)
+        if (feedKey == 0)
         {
             continue;
         }
@@ -258,7 +258,7 @@ function ShowFeeds()
         AddRow(feedKey);
         itemOrder = parseInt(feeds[feedKey].order);
         
-        if(itemOrder > maxOrder)
+        if (itemOrder > maxOrder)
         {
             maxOrder = itemOrder;
         }

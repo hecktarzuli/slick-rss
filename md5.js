@@ -101,7 +101,7 @@ var MD5 = function (string) {
 			if (c < 128) {
 				utftext += String.fromCharCode(c);
 			}
-			else if((c > 127) && (c < 2048)) {
+			else if ((c > 127) && (c < 2048)) {
 				utftext += String.fromCharCode((c >> 6) | 192);
 				utftext += String.fromCharCode((c & 63) | 128);
 			}

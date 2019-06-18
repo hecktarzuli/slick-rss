@@ -10,13 +10,13 @@ $(document).ready(function()
 // starts import    
 function Import()
 {
-    if(document.getElementById("opml").value == "")
+    if (document.getElementById("opml").value == "")
     {
         alert("Nothing to import");
         return;
     }
     
-    if(bgPage.options.feedsource == 1)
+    if (bgPage.options.feedsource == 1)
     {
         chrome.bookmarks.get(bgPage.options.feedfolderid, ImportBookmarks);        
     } 
@@ -33,7 +33,7 @@ function ImportBookmarks(startNode)
     var importCount = 0;
     var opml = new DOMParser().parseFromString(document.getElementById("opml").value, 'text/xml');                
                
-    if(!startNode || startNode.length == 0)
+    if (!startNode || startNode.length == 0)
     {
         alert("Could not import because your bookmark folder is not found.");
         return;
@@ -41,16 +41,16 @@ function ImportBookmarks(startNode)
       
     nodes = opml.getElementsByTagName("outline");       
     
-    for(var i = 0;i < nodes.length;i++)
+    for (var i = 0;i < nodes.length;i++)
     {
-        if(nodes[i].getAttribute("type") == "rss")
+        if (nodes[i].getAttribute("type") == "rss")
         {
             chrome.bookmarks.create({parentId: startNode[0].id, "title" : nodes[i].getAttribute("text"), "url" : nodes[i].getAttribute("xmlUrl")}, null);
             importCount ++;
         }
     }
     
-    if(nodes.length == 0)
+    if (nodes.length == 0)
     {
         alert("No outline nodes of type 'rss' were found to import.");
         return;
@@ -72,17 +72,17 @@ function ImportFeeds()
     nodes = opml.getElementsByTagName("outline");       
     
     // get max order
-    for(var i = 0;i < bgPage.feeds.length; i++)
+    for (var i = 0;i < bgPage.feeds.length; i++)
     {
-        if(bgPage.feeds[i].order > maxOrder)
+        if (bgPage.feeds[i].order > maxOrder)
         {
             maxOrder = bgPage.feeds[i].order;
         }
     }
     
-    for(var i = 0;i < nodes.length; i++)
+    for (var i = 0;i < nodes.length; i++)
     {
-        if(nodes[i].getAttribute("type") == "rss")
+        if (nodes[i].getAttribute("type") == "rss")
         {
             maxOrder ++;
             bgPage.feeds.push(bgPage.CreateNewFeed(nodes[i].getAttribute("text"), nodes[i].getAttribute("xmlUrl"), bgPage.options.maxitems, maxOrder));
@@ -90,7 +90,7 @@ function ImportFeeds()
         }
     }
     
-    if(nodes.length == 0)
+    if (nodes.length == 0)
     {
         alert("No outline nodes of type 'rss' were found to import.");
         return;

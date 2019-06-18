@@ -5,7 +5,7 @@ $(document).ready(function()
 {
 	$('#close').click(function(){window.close();});
 	
-	if(bgPage.options.feedsource == 1)
+	if (bgPage.options.feedsource == 1)
 	        chrome.bookmarks.get(bgPage.options.feedfolderid, ExportBookmarks);
 	    else
     		ExportFeeds();
@@ -24,7 +24,7 @@ function ExportBookmarks(startNode)
 	{
 	    var opml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><opml version=\"2.0\">\n<head><title>Slick RSS OPML Export</title></head>\n<body>";
 
-	    for(var i = 0; i < nodes.length;i++)
+	    for (var i = 0; i < nodes.length;i++)
 	        opml += "<outline type=\"rss\" text=\"" + nodes[i].title.replace("&", "&amp;") + "\" xmlUrl=\"" + nodes[i].url.replace("&", "&amp;") + "\"/>\n";
 
 	    opml += "</body>\n</opml>";
@@ -38,9 +38,9 @@ function ExportFeeds()
 {
     var opml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><opml version=\"2.0\">\n<head><title>Slick RSS OPML Export</title></head>\n<body>";
 
-	    for(var i = 0; i < bgPage.feeds.length;i++)
+	    for (var i = 0; i < bgPage.feeds.length;i++)
 	    {
-	        if(bgPage.feeds[i].title != "Read Later")
+	        if (bgPage.feeds[i].title != "Read Later")
 	            opml += "<outline type=\"rss\" text=\"" + bgPage.feeds[i].title.replace("&", "&amp;") + "\" xmlUrl=\"" + bgPage.feeds[i].url.replace("&", "&amp;") + "\"/>\n";
 	    }
 

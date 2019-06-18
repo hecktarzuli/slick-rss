@@ -5,11 +5,11 @@ function GetDate(txtDate)
 {
     var myDate = new Date(txtDate);
  
-	if(isNaN(myDate.getTime()))
+	if (isNaN(myDate.getTime()))
 	{
 		myDate = new Date(ConvertAtomDateString(txtDate));
 		
-		if(isNaN(myDate.getTime()))
+		if (isNaN(myDate.getTime()))
 		{
 		    return null;
 		}		
@@ -23,7 +23,7 @@ function FormatDate(dt, format)
 {
     var isLocal = true;
     
-    if(format.lastIndexOf("[u]") != -1)
+    if (format.lastIndexOf("[u]") != -1)
     {
         isLocal = false;
         format = format.replace("[u]", "");
@@ -65,7 +65,7 @@ function FormatDate(dt, format)
 // adds 0 to a number if it's < 10
 function PadZero(num)
 {
-    if(num < 10)
+    if (num < 10)
     {
         return "0" + num;
     }
@@ -76,12 +76,12 @@ function PadZero(num)
 // converts 24 hour clock into 12
 function Get12Hour(hour)
 {
-    if(hour > 12)
+    if (hour > 12)
     {
         return hour - 12;
     }
     
-    if(hour == 0)
+    if (hour == 0)
     {
         return 12;
     }
@@ -131,7 +131,7 @@ function ConvertAtomDateString(str)
 {
 	//YYYY-MM-DDThh:mm:ss[.f*](Z|-hh:mm|+hh:mm)
 	var atomFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+-]\d{2}:\d{2})$/i;
-	if(!atomFormat.test(str)) return "";	//invalid format
+	if (!atomFormat.test(str)) return "";	//invalid format
  
 	var months = new Array("","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
  
@@ -143,7 +143,7 @@ function ConvertAtomDateString(str)
 	minute = str.slice(14,16);	//00-59
 	second = str.slice(17,19);	//00-59
 	offset = "GMT";
-	if(str.indexOf("Z") == -1)	//time zone offset specified
+	if (str.indexOf("Z") == -1)	//time zone offset specified
 	{
 		var x = str.lastIndexOf(":");
 		offset += str.slice(x-3,x) + str.slice(x+1);
@@ -156,7 +156,7 @@ function ConvertAtomDateString(str)
 // gets a day suffix like st, th, nd
 function GetDaySuffix(number)
 {
-    if((number > 3 && number < 21) || (number > 24 && number < 31))
+    if ((number > 3 && number < 21) || (number > 24 && number < 31))
     {
         return number + "th";
     }

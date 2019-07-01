@@ -1,5 +1,4 @@
-
-var manifest = GetManifest();
+var manifest = chrome.runtime.getManifest();
 var options = GetOptions();
 var unreadInfo = GetUnreadCounts();
 var unreadTotal = 0;
@@ -135,28 +134,29 @@ function GetOptions() {
 
 // used to get defaults to help fill in missing pieces as I add more options
 function GetDefaultOptions() {
-return {  "lastversion" : manifest.version,
-          "feedsource" : 0,
-          "feedfolderid" : "",
-          "maxitems" : 15,
-          "showdescriptions" : true,
-          "dateformat" : "[w], [mmmm] [ddd], [yyyy] [12h]:[nn] [a]",
-          "showfeedimages" : true,
-          "showfeedobjects" : true,
-          "showfeediframes" : false,
-          "showfeedcontent" : true,
-          "checkinterval" : 60,
-          "markreadonclick" : false,
-          "markreadafter" : 0,
-          "readitemdisplay" : 0,
-          "unreaditemtotaldisplay" : true,
-          "unreadtotaldisplay" : 3,
-          "columns" : 2,
-          "readlaterenabled" : true,
-          "readlaterremovewhenviewed" : true,
-          "readlaterincludetotal" : true,
-          "loadlinksinbackground": false
-                         };
+    return {
+        "lastversion" : manifest.version,
+        "feedsource" : 0,
+        "feedfolderid" : "",
+        "maxitems" : 15,
+        "showdescriptions" : true,
+        "dateformat" : "[w], [mmmm] [ddd], [yyyy] [12h]:[nn] [a]",
+        "showfeedimages" : true,
+        "showfeedobjects" : true,
+        "showfeediframes" : false,
+        "showfeedcontent" : true,
+        "checkinterval" : 60,
+        "markreadonclick" : false,
+        "markreadafter" : 0,
+        "readitemdisplay" : "Gray",
+        "unreaditemtotaldisplay" : true,
+        "unreadtotaldisplay" : 3,
+        "columns" : 2,
+        "readlaterenabled" : true,
+        "readlaterremovewhenviewed" : true,
+        "readlaterincludetotal" : true,
+        "loadlinksinbackground": false
+    };
 }
 
 // gets the feed array for everyone to use
@@ -276,17 +276,6 @@ function GetRandomID() {
     return str;
 }
 
-// gets manifest information to send to Sniffer
-function GetManifest() {
-    var req = new XMLHttpRequest();
-    req.open("GET", chrome.extension.getURL("manifest.json"), false);
-    req.send(null);
-
-    if (req.readyState == 4) {
-        return JSON.parse(req.responseText);
-    }
-}
-
 // as this project gets larger there will be upgrades to storage items this will help
 function DoUpgrades() {
     var lastVersion = parseFloat(options.lastversion);
@@ -353,7 +342,7 @@ function UpdateUnreadBadge() {
     }
 
     if (total > unreadTotal) {
-        var myAudio = new Audio(chrome.runtime.getURL("intuition.mp3"));
+        var myAudio = new Audio(chrome.runtime.getURL("assets/intuition.mp3"));
         myAudio.play();
     }
     unreadTotal = total;

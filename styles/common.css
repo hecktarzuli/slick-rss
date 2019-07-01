@@ -38,7 +38,7 @@ body
 {
 	min-width: 26px;
 	height: 26px;
-	background-image: url("rss.png");
+	background-image: url("../images/rss.png");
 	background-repeat: no-repeat;
 	background-position: center;	
 }

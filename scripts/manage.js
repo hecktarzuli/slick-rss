@@ -133,7 +133,7 @@ function AddRow(feedKey)
     row.insertCell(3).appendChild(input);
     
     button = document.createElement("img");
-    button.setAttribute("src", "x.gif");
+    button.setAttribute("src", "images/x.gif");
     button.setAttribute("class", "delete");
     
     //var tmp = this.parentNode.parentNode;

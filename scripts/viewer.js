@@ -159,7 +159,6 @@ function ShowFeed(key) {
     span.setAttribute("id", "feedUnread" + feeds[key].id);
 
     $(li).click(function(){SelectFeed(key);return false;});
-    //ClickBuilder(li, "SelectFeed('" + key + "')");
 
     li.appendChild(span);
 
@@ -254,8 +253,11 @@ function MarkFeedRead(feedID) {
 }
 
 function MarkItemRead(itemID) {
+    log_func("MarkItemRead", ["itemID"], [itemID]);
     var feedID = feeds[selectedFeedKey].id;
-		var className = " feedPreviewContainer" + options.readitemdisplay;
+    log_var(258, "feedID", feedID);
+    var className = " feedPreviewContainer" + options.readitemdisplay;
+    log_var(260, "className", className);
     var expireMs = new Date().getTime() + 5184000000; // 2 months;
 
     if (bgPage.unreadInfo[feedID].readitems[itemID] == null) {
@@ -273,6 +275,7 @@ function MarkItemRead(itemID) {
 }
 
 function MarkItemReadLater(feedID, itemIndex) {
+    log_func("MarkItemReadLater", ["feedID", "itemIndex"], [feedID, itemIndex]);
     var itemID = MD5(bgPage.feedInfo[feedID].items[itemIndex].title + bgPage.feedInfo[feedID].items[itemIndex].date);
 
     bgPage.feedInfo[bgPage.readLaterFeedID].items.push(bgPage.feedInfo[feedID].items[itemIndex]);
@@ -285,6 +288,7 @@ function MarkItemReadLater(feedID, itemIndex) {
 }
 
 function UnMarkItemReadLater(itemIndex) {
+    log_func("UnMarkItemReadLater", ["itemIndex"], [itemIndex]);
     bgPage.unreadInfo[bgPage.readLaterFeedID].unreadtotal --;
     bgPage.feedInfo[bgPage.readLaterFeedID].items.splice(itemIndex, 1);
     bgPage.UpdateUnreadBadge();
@@ -400,21 +404,19 @@ function RenderFeed() {
 
         feedMarkRead = null;
         feedMarkRead = document.createElement("img");
-        feedMarkRead.setAttribute("src", "x_blue.gif");
+        feedMarkRead.setAttribute("src", "images/x_blue.gif");
         //feedMarkRead.setAttribute("id", 'markItemRead' + itemID);
 
         if (feedID == bgPage.readLaterFeedID) {
-        	  $(feedMarkRead).click({i:i}, function(event) {
-								UnMarkItemReadLater(event.data.i);
-								return false;
-						});
-            //ClickBuilder(feedMarkRead, "UnMarkItemReadLater(" + i + ");");
+            $(feedMarkRead).click({i:i}, function(event) {
+                UnMarkItemReadLater(event.data.i);
+                return false;
+            });
         } else {
-        	  $(feedMarkRead).click({itemID: itemID}, function(event) {
-	        	  	MarkItemRead(event.data.itemID);
-	        	  	return false;
-        	  });
-            //ClickBuilder(feedMarkRead, "MarkItemRead(\"" + itemID + "\");");
+            $(feedMarkRead).click({itemID: itemID}, function(event) {
+                MarkItemRead(event.data.itemID);
+                return false;
+            });
         }
 
         feedMarkRead.title = "Mark read";
@@ -425,22 +427,19 @@ function RenderFeed() {
         feedLink.innerHTML = (i+1) + ".&nbsp;&nbsp;" + item.title;
 
         $(feedLink).click({url:item.url}, function(event){LinkProxy(event.data.url);return false;});
-        //ClickBuilder(feedLink, "LinkProxy('" + item.url + "');return false;");
 
         if (feedID == bgPage.readLaterFeedID) {
             if (options.readlaterremovewhenviewed) {
             	 $(feedLink).click({i:i}, function(event){UnMarkItemReadLater(event.data.i);return false;});
-                //ClickBuilder(feedLink, "UnMarkItemReadLater(" + i + ");");
             }
         } else {
         	  $(feedLink).click({feedID:feedID, itemID:itemID},function(event) {
-								MarkItemRead(event.data.itemID);
-								if (options.markreadonclick) {
-										MarkFeedRead(event.data.feedID);
-								}
-								return false;
-						});
-            //ClickBuilder(feedLink, "MarkItemRead(\"" + itemID + "\");if (options.markreadonclick){MarkFeedRead(" + feedID + ");}");
+                MarkItemRead(event.data.itemID);
+                if (options.markreadonclick) {
+                    MarkFeedRead(event.data.feedID);
+                }
+                return false;
+            });
         }
 
         feedTitle = document.createElement("h2");
@@ -449,11 +448,10 @@ function RenderFeed() {
 
         if (options.readlaterenabled && feedID != bgPage.readLaterFeedID) {
             feedReadLater = document.createElement("img");
-            feedReadLater.setAttribute("src", "star.gif");
+            feedReadLater.setAttribute("src", "images/star.gif");
             feedReadLater.setAttribute("class", "feedPreviewReadLater");
             feedReadLater.setAttribute("title", "Read later");
             $(feedReadLater).click({feedID: feedID, i:i}, function(event){MarkItemReadLater(event.data.feedID, event.data.i);return false;});
-            //ClickBuilder(feedReadLater, "MarkItemReadLater(\"" + feedID + "\", " + i + ");");
             feedTitle.appendChild(feedReadLater);
         }
 
@@ -487,16 +485,13 @@ function RenderFeed() {
             href = summaryLinks[l].getAttribute("href");
 
             $(summaryLinks[l]).click({href:href},function(event){LinkProxy(event.data.href);return false;});
-            //ClickBuilder(summaryLinks[l], "LinkProxy('" + href + "');return false;");
 
             if (feedID == bgPage.readLaterFeedID) {
                 if (options.readlaterremovewhenviewed) {
                 	$(summaryLinks[l]).click({i:i},function(event){UnMarkItemReadLater(event.data.i);return false;});
-                    //ClickBuilder(summaryLinks[l], "UnMarkItemReadLater(" + i + ");");
                 }
-        		} else {
+            } else {
             	 $(summaryLinks[l]).click({itemID:itemID},function(event){MarkItemRead(event.data.itemID);return false;});
-                //ClickBuilder(summaryLinks[l], "MarkItemRead(\"" + itemID + "\");");
             }
         }
 
@@ -519,7 +514,7 @@ function RenderFeed() {
         for (var o = summaryObjects.length - 1; o >= 0; o--) {
             if (!options.showfeedobjects) {
                 summaryObjects[o].parentNode.removeChild(summaryObjects[o]);
-        		} else {
+            } else {
                 summaryObjects[o].style.maxWidth = "95%";
                 summaryObjects[o].style.width = "";
                 summaryObjects[o].style.height = "";
@@ -583,32 +578,24 @@ function ShowFeedError(message) {
     document.getElementById("headerMessage").innerText = "Feed Problems";
 }
 
-// since we have multiple click events, this should allow us
-// to build them easily
-function ClickBuilder(el, newFunction) {
-    var obj = $(el);
-    var clickEvents = obj.data("clickEvents");
-
-    if (clickEvents == undefined) {
-        clickEvents = "";
-    }
-
-    clickEvents = clickEvents + newFunction;
-
-    if (/return false/i.test(clickEvents)) {
-    	clickEvents = clickEvents.replace(/return false;/i, "") + "return false;";
-    }
-
-    // hack
-    obj
-    .data('clickEvents', clickEvents)
-    .unbind('click')
-    .bind('click', function(){$.globalEval($(this).data('clickEvents'));});
-
-    return;
-}
-
 // central function to control creation of tabs so we can put them in the background
 function LinkProxy(uRL) {
     chrome.tabs.create({url:uRL, selected: !bgPage.options.loadlinksinbackground});
+}
+
+
+// debug logging for when we start a function
+function log_func(func_name, args_names, args) {
+    console.log("----");
+    var log_func_str = "Inside " + func_name + ". ";
+    for (var i = 0; i < args.length; i++) {
+        log_func_str += args_names[i] + " : " + args[i] + "; ";
+    }
+    console.log(log_func_str);
+}
+
+// debug logging for when we check a variable
+function log_var(num, variable_name, variable) {
+    console.log("--");
+    console.log("(" + num + ") " + variable_name + " : " + variable);
 }

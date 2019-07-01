@@ -98,7 +98,7 @@ body
 }
 
 .loading tr > td:first-child {
-	background-image: url("loading.gif") !important;
+	background-image: url("../images/loading.gif") !important;
 }
 
 #feedPreview {

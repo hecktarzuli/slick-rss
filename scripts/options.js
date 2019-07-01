@@ -1,14 +1,27 @@
 
 // wire stuff to prevent XSS :(
-$(document).ready(function()
-{
-	$('#save').click(function(){Save();});
-	$('#cancel').click(function(){window.close();});
-	$('#feedSource').change(function(){FeedSourceChanged();});
-	$('#importFeeds').click(function(){window.open('import.html', 'height=250,width=550');});
-	$('#exportFeeds').click(function(){window.open('export.html', 'height=250,width=550');});
-	$('#dateDone').click(function(){ShowDateSample(true);});
-	$('#dateFormat').focus(function(){EditDateFormat();});
+$(document).ready(function() {
+	$('#save').click(function() {
+        Save();
+    });
+	$('#cancel').click(function() {
+        window.close();
+    });
+	$('#feedSource').change(function() {
+        FeedSourceChanged();
+    });
+	$('#importFeeds').click(function() {
+        window.open('import.html', 'height=250,width=550');
+    });
+	$('#exportFeeds').click(function() {
+        window.open('export.html', 'height=250,width=550');
+    });
+	$('#dateDone').click(function() {
+        ShowDateSample(true);
+    });
+	$('#dateFormat').focus(function() {
+        EditDateFormat();
+    });
 
 });
 
@@ -16,8 +29,7 @@ var bgPage = chrome.extension.getBackgroundPage();
 
 window.onload = SetupScreen;
 
-function SetupScreen()
-{  
+function SetupScreen() {
     document.getElementById("feedSource").selectedIndex = parseInt(bgPage.options.feedsource);
     FeedSourceChanged(); // changing index doesn't fire onchange :(
     document.getElementById("maxItems").value = bgPage.options.maxitems;
@@ -42,42 +54,34 @@ function SetupScreen()
     ShowDateSample(false);
     document.getElementById("homePageURL").innerText = chrome.extension.getURL("viewer.html");
     
-    if (bgPage.snifferID != null)
-    {
+    if (bgPage.snifferID != null) {
         document.getElementById("snifferInfo").innerText = bgPage.snifferName + " (v" + bgPage.snifferVersion + ")";
         document.getElementById("snifferInfo").style.color = "black";
-    }
-    else
-    {
+    } else {
         document.getElementById("snifferInfo").innerHTML = "None, <a href=\"https://chrome.google.com/extensions/detail/mpajmofiejfjgeaakelmjklenjaekppa\" onclick=\"window.close();\"target=\"_blank\" style=\"color: red;\">install Slick RSS Feed Finder</a>";
         document.getElementById("snifferInfo").style.color = "red";    
     }
 }
 
-function Save()
-{
+function Save() {
     var maxItems = document.getElementById("maxItems").value;
     
-    if (!/^\d+$/.test(maxItems) || maxItems == "0")
-    {
+    if (!/^\d+$/.test(maxItems) || maxItems == "0") {
         alert("'Max Items' seems invalid.  It's the max number of items in a feed preview and should be > 0");
         return;
     }
     
-    if (!/^\d+$/.test(document.getElementById("checkInterval").value))
-    {
+    if (!/^\d+$/.test(document.getElementById("checkInterval").value)) {
         alert("'Update Interval' seems invalid.  It's the number of minutes between fetching unread counts.");
         return;
     }
     
-    if (document.getElementById("checkInterval").value == 0)
-    {
+    if (document.getElementById("checkInterval").value == 0) {
         alert("'Update Interval' must be > 0.");
         return;
     }
     
-    if (!/^\d+$/.test(document.getElementById("markReadAfter").value))
-    {
+    if (!/^\d+$/.test(document.getElementById("markReadAfter").value)) {
         alert("'Mark feed read after' seems invalid.  It's the number of seconds after you've viewed a feed before it's marked read.");
         return;
     }
@@ -104,13 +108,11 @@ function Save()
     
     localStorage["options"] = JSON.stringify(bgPage.options);
    
-    if (!bgPage.options.readlaterenabled)
-    {
+    if (!bgPage.options.readlaterenabled) {
        delete localStorage["readlater"];       
     }
     
-    bgPage.GetFeeds(function()
-    {
+    bgPage.GetFeeds(function() {
         bgPage.ReloadViewer();    
         bgPage.CheckForUnreadStart();
         
@@ -120,62 +122,52 @@ function Save()
 }
 
 // fills the folder dropdown 
-function FillFolderList(nodes)
-{
+function FillFolderList(nodes) {
     var folderList = document.getElementById("feedFolderID");
     var arr = [];
     var option = null;
     
     GetBookmarkNodes(nodes[0], arr, "");        
     
-    for (var i = 0;i < arr.length; i++)
-    {
+    for (var i = 0;i < arr.length; i++) {
         option = document.createElement("option");
         option.setAttribute("value", arr[i][0]);
-        option.innerHTML = arr[i][1]; 
-        
-        if (arr[i][0] == bgPage.options.feedfolderid)
-        {
+        option.innerHTML = arr[i][1];
+
+        if (arr[i][0] == bgPage.options.feedfolderid) {
             option.setAttribute("selected", "selected");
         }
-        
+
         folderList.appendChild(option);
     }
 }
 
 // recursively fills array with ids and titles of folders in the bookmark tree
-function GetBookmarkNodes(node, arr, depth)
-{ 
-    for (var i = 0; i < node.children.length; i++)
-    {       
-        if (node.children[i].url == null)
-        {  
+function GetBookmarkNodes(node, arr, depth) { 
+    for (var i = 0; i < node.children.length; i++) {
+        if (node.children[i].url == null) {
             var detail = new Array(2);
             detail[0] = node.children[i].id;
             detail[1] = depth + node.children[i].title;
             arr.push(detail);
-            
+
             GetBookmarkNodes(node.children[i], arr, depth + "&nbsp;&nbsp;&nbsp;");            
-        }       
+        }
     }
 }
 
-function FeedSourceChanged()
-{
+function FeedSourceChanged() {
     document.getElementById("feedFolder").style.display = (document.getElementById("feedSource").selectedIndex == 0) ? "none" : "";
 }
 
-function EditDateFormat()
-{
+function EditDateFormat() {
    document.getElementById("dateFormat").value = bgPage.options.dateformat; 
    document.getElementById("dateHelp").style.display = "";
    document.getElementById("dateDone").style.display = "";
 }
 
-function ShowDateSample(saveDate)
-{
-    if (saveDate)
-    {
+function ShowDateSample(saveDate) {
+    if (saveDate) {
         bgPage.options.dateformat = document.getElementById("dateFormat").value;
     }
     

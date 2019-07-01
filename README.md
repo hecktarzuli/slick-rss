@@ -12,13 +12,7 @@ Visit [Slick RSS on the Chrome Web Store](https://chrome.google.com/webstore/det
 4. Click the new icon for this extension in your browser's top menu to finish setting up your desired RSS feeds.
 
 ## To-Do
-- [ ] Resolve all compiler errors when downloading the extension
-- [ ] Restructure project and prune miscellaenous files
-- [ ] Set up simple testing with example RSS feeds from [here](https://www.feedforall.com/sample-feeds.htm) before refactoring
-- [ ] Look into CI testing. Would adopting this project with node.js be the best solution?
-- [ ] Remake icons in accurate sizes
-- [ ] Update viewer.html to be responsible instead of relying on <tables>
-- [ ] Update viewer.js to append 
+Visit [our issues queue](https://github.com/Pepper-Wood/slick-rss/issues) to view the current to-do list.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

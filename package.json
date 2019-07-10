@@ -1,0 +1,23 @@
+{
+  "name": "slick-rss",
+  "version": "1.0.0",
+  "description": "Open source RSS notification extension for Google Chrome",
+  "main": "manifest.json",
+  "scripts": {
+    "test": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pepper-Wood/slick-rss.git"
+  },
+  "author": "Josh Deltener",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pepper-Wood/slick-rss/issues"
+  },
+  "homepage": "https://github.com/Pepper-Wood/slick-rss#readme",
+  "dependencies": {
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  }
+}

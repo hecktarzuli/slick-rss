@@ -1,39 +1,8 @@
-
-// wire stuff to prevent XSS :(
-$(document).ready(function() {
-	$('#save').click(function() {
-        Save();
-    });
-	$('#cancel').click(function() {
-        window.close();
-    });
-	$('#feedSource').change(function() {
-        FeedSourceChanged();
-    });
-	$('#importFeeds').click(function() {
-        window.open('import.html', 'height=250,width=550');
-    });
-	$('#exportFeeds').click(function() {
-        window.open('export.html', 'height=250,width=550');
-    });
-	$('#dateDone').click(function() {
-        ShowDateSample(true);
-    });
-	$('#dateFormat').focus(function() {
-        EditDateFormat();
-    });
-
-});
-
-var bgPage = chrome.extension.getBackgroundPage();
-
-window.onload = SetupScreen;
-
 function SetupScreen() {
     document.getElementById("feedSource").selectedIndex = parseInt(bgPage.options.feedsource);
     FeedSourceChanged(); // changing index doesn't fire onchange :(
     document.getElementById("maxItems").value = bgPage.options.maxitems;
-    document.getElementById("showDescriptions").selectedIndex = bgPage.options.showdescriptions;    
+    document.getElementById("showDescriptions").selectedIndex = bgPage.options.showdescriptions;
     document.getElementById("showFeedImages").selectedIndex = bgPage.options.showfeedimages;
     document.getElementById("showFeedObjects").selectedIndex = bgPage.options.showfeedobjects;
     document.getElementById("showFeedIframes").selectedIndex = bgPage.options.showfeediframes;
@@ -50,7 +19,7 @@ function SetupScreen() {
     document.getElementById("readLaterIncludeTotal").selectedIndex = bgPage.options.readlaterincludetotal;
     document.getElementById("loadLinksInBackground").selectedIndex = bgPage.options.loadlinksinbackground;
     
-    chrome.bookmarks.getTree(FillFolderList);    
+    chrome.bookmarks.getTree(FillFolderList);
     ShowDateSample(false);
     document.getElementById("homePageURL").innerText = chrome.extension.getURL("viewer.html");
     
@@ -59,7 +28,7 @@ function SetupScreen() {
         document.getElementById("snifferInfo").style.color = "black";
     } else {
         document.getElementById("snifferInfo").innerHTML = "None, <a href=\"https://chrome.google.com/extensions/detail/mpajmofiejfjgeaakelmjklenjaekppa\" onclick=\"window.close();\"target=\"_blank\" style=\"color: red;\">install Slick RSS Feed Finder</a>";
-        document.getElementById("snifferInfo").style.color = "red";    
+        document.getElementById("snifferInfo").style.color = "red";
     }
 }
 
@@ -100,7 +69,7 @@ function Save() {
     bgPage.options.readitemdisplay = document.getElementById("readItemDisplay")[document.getElementById("readItemDisplay").selectedIndex].value;
     bgPage.options.unreadtotaldisplay = document.getElementById("unreadTotalDisplay")[document.getElementById("unreadTotalDisplay").selectedIndex].value;
     bgPage.options.unreaditemtotaldisplay = (document.getElementById("unreadItemTotalDisplay").selectedIndex == 1);
-    bgPage.options.columns = document.getElementById("columns")[document.getElementById("columns").selectedIndex].value;   
+    bgPage.options.columns = document.getElementById("columns")[document.getElementById("columns").selectedIndex].value;
     bgPage.options.readlaterenabled = (document.getElementById("readLaterEnabled").selectedIndex == 1);   
     bgPage.options.readlaterremovewhenviewed = (document.getElementById("readLaterRemoveWhenViewed").selectedIndex == 1);
     bgPage.options.readlaterincludetotal = (document.getElementById("readLaterIncludeTotal").selectedIndex == 1);
@@ -109,11 +78,11 @@ function Save() {
     localStorage["options"] = JSON.stringify(bgPage.options);
    
     if (!bgPage.options.readlaterenabled) {
-       delete localStorage["readlater"];       
+       delete localStorage["readlater"];
     }
     
     bgPage.GetFeeds(function() {
-        bgPage.ReloadViewer();    
+        bgPage.ReloadViewer();
         bgPage.CheckForUnreadStart();
         
     });
@@ -127,7 +96,7 @@ function FillFolderList(nodes) {
     var arr = [];
     var option = null;
     
-    GetBookmarkNodes(nodes[0], arr, "");        
+    GetBookmarkNodes(nodes[0], arr, "");
     
     for (var i = 0;i < arr.length; i++) {
         option = document.createElement("option");
@@ -151,7 +120,7 @@ function GetBookmarkNodes(node, arr, depth) {
             detail[1] = depth + node.children[i].title;
             arr.push(detail);
 
-            GetBookmarkNodes(node.children[i], arr, depth + "&nbsp;&nbsp;&nbsp;");            
+            GetBookmarkNodes(node.children[i], arr, depth + "&nbsp;&nbsp;&nbsp;");
         }
     }
 }

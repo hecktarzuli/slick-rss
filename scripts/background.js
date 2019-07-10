@@ -1,35 +1,3 @@
-var manifest = chrome.runtime.getManifest();
-var options = GetOptions();
-var unreadInfo = GetUnreadCounts();
-var unreadTotal = 0;
-var feedInfo = [];
-var feeds = [];
-var snifferName = null;
-var snifferVersion = null;
-var snifferID = null;
-var viewerPort = null;
-var checkingForUnread = false;
-var checkForUnreadTimerID = null;
-var checkForUnreadCounter = 0;
-var getFeedsCallBack = null;
-var refreshFeed = false;
-var readLaterFeedID = 9999999999;
-var viewPortTabID = null;
-
-chrome.browserAction.onClicked.addListener(ButtonClicked);
-chrome.extension.onRequestExternal.addListener(ExternalRequest);
-chrome.extension.onConnect.addListener(InternalConnection);
-chrome.bookmarks.onChanged.addListener(BookmarkChanged);
-chrome.bookmarks.onCreated.addListener(CheckFeedChange);
-chrome.bookmarks.onMoved.addListener(CheckFeedChange);
-chrome.bookmarks.onRemoved.addListener(CheckFeedChange);
-
-DoUpgrades();
-GetFeeds(function() {
-    CleanUpUnreadOrphans();
-    CheckForUnreadStart();
-});
-
 // communicate with other pages
 function InternalConnection(port) {
     if (port.name == "viewerPort") {
@@ -244,22 +212,18 @@ function CheckFeedChange(id, notUsed) {
 function CreateNewFeed(title, url, maxitems, order, id) {
     // managed feed doesn't have an id yet
     if (id == null) {
-	    id = GetRandomID();
+        id = GetRandomID();
     }
-
     return {title: title, url: url, maxitems: maxitems, order: order, id: id};
-
 }
 
 // converts the text date into a formatted one if possible
 function GetFormattedDate(txtDate) {
-	var myDate = GetDate(txtDate);
-
-	 if (myDate == null) {
-	    return txtDate;
-	}
-
-	return FormatDate(myDate, options.dateformat);
+    var myDate = GetDate(txtDate);
+    if (myDate == null) {
+        return txtDate;
+    }
+    return FormatDate(myDate, options.dateformat);
 }
 
 // gets random numbers for managed feed ids
@@ -567,19 +531,15 @@ function CleanUpUnreadOrphans() {
 
 // to help with master title & description getting
 function GetNodeTextValue(node, defaultValue) {
-    if (node == null || node.childNodes.length == 0)
-{
+    if (node == null || node.childNodes.length == 0) {
         return (defaultValue == null) ? "" : defaultValue;
     }
-
     var str = "";
-
     for (var i = 0; i < node.childNodes.length;i++) {
         if (node.childNodes[i].nodeValue != null) {
             str += node.childNodes[i].nodeValue;
         }
     }
-
     return str;
 }
 

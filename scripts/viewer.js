@@ -1,77 +1,3 @@
-
-// to prevent XSS :(
-$(document).ready(function() {
-	$('#refreshAll').click(function() {
-			bgPage.CheckForUnreadStart();
-	});
-	$('#markAllRead').click(function() {
-	    MarkAllFeedsRead();
-	});
-	$('#refreshButton').click(function() {
-		bgPage.CheckForUnreadStart(selectedFeedKey);
-	});
-	$('#markFeedReadButton').click(function() {
-		MarkFeedRead(feeds[selectedFeedKey].id);
-	});
-	$('#showOptions').click(function() {
-		chrome.tabs.create({url:'options.html'});
-	});
-	$('#addFeeds').click(function() {
-		window.location = 'manage.html';
-	});
-});
-
-var bgPage = chrome.extension.getBackgroundPage();
-var options = bgPage.options;
-var feeds = bgPage.feeds;
-var selectedFeedKey = null;
-var feedReadToID = null;
-
-var port = chrome.extension.connect({name: "viewerPort"});
-
-port.onMessage.addListener(function(msg) {
-    if (msg.type == "feedschanged") {
-        location = 'viewer.html';
-    }
-
-    if (msg.type == "refreshallstarted") {
-        document.getElementById("feedsLoadingProgress").style.width = "0%";
-    }
-
-    if (msg.type == "refreshallcomplete") {
-        document.getElementById("feedsOptions").style.display = "";
-        document.getElementById("feedsLoading").style.display = "none";
-    }
-
-    if (msg.type == "feedupdatestarted") {
-        if (!bgPage.refreshFeed) {
-            UpdateRefreshAllProgress();
-        }
-
-        if (msg.id == feeds[selectedFeedKey].id) {
-            document.getElementById("header").className = "loading";
-        }
-    }
-
-    if (msg.type == "feedupdatecomplete") {
-        UpdateFeedUnread(msg.id);
-
-        // refresh page if you are on the one that changed
-        if (msg.id == feeds[selectedFeedKey].id) {
-            SelectFeed(selectedFeedKey);
-            document.getElementById("header").className = "";
-        }
-    }
-
-    if (msg.type == "unreadtotalchanged") {
-        UpdateTitle();
-    }
-});
-
-window.onload = ShowFeeds;
-window.onresize = FixFeedList;
-
-
 function UpdateRefreshAllProgress() {
     document.getElementById("feedsOptions").style.display = "none";
     document.getElementById("feedsLoading").style.display = "block";
@@ -253,11 +179,11 @@ function MarkFeedRead(feedID) {
 }
 
 function MarkItemRead(itemID) {
-    log_func("MarkItemRead", ["itemID"], [itemID]);
+    log_function("MarkItemRead", ["itemID"], [itemID]);
     var feedID = feeds[selectedFeedKey].id;
-    log_var(258, "feedID", feedID);
+    log_variable(258, "feedID", feedID);
     var className = " feedPreviewContainer" + options.readitemdisplay;
-    log_var(260, "className", className);
+    log_variable(260, "className", className);
     var expireMs = new Date().getTime() + 5184000000; // 2 months;
 
     if (bgPage.unreadInfo[feedID].readitems[itemID] == null) {
@@ -275,7 +201,7 @@ function MarkItemRead(itemID) {
 }
 
 function MarkItemReadLater(feedID, itemIndex) {
-    log_func("MarkItemReadLater", ["feedID", "itemIndex"], [feedID, itemIndex]);
+    log_function("MarkItemReadLater", ["feedID", "itemIndex"], [feedID, itemIndex]);
     var itemID = MD5(bgPage.feedInfo[feedID].items[itemIndex].title + bgPage.feedInfo[feedID].items[itemIndex].date);
 
     bgPage.feedInfo[bgPage.readLaterFeedID].items.push(bgPage.feedInfo[feedID].items[itemIndex]);
@@ -288,7 +214,7 @@ function MarkItemReadLater(feedID, itemIndex) {
 }
 
 function UnMarkItemReadLater(itemIndex) {
-    log_func("UnMarkItemReadLater", ["itemIndex"], [itemIndex]);
+    log_function("UnMarkItemReadLater", ["itemIndex"], [itemIndex]);
     bgPage.unreadInfo[bgPage.readLaterFeedID].unreadtotal --;
     bgPage.feedInfo[bgPage.readLaterFeedID].items.splice(itemIndex, 1);
     bgPage.UpdateUnreadBadge();
@@ -581,21 +507,4 @@ function ShowFeedError(message) {
 // central function to control creation of tabs so we can put them in the background
 function LinkProxy(uRL) {
     chrome.tabs.create({url:uRL, selected: !bgPage.options.loadlinksinbackground});
-}
-
-
-// debug logging for when we start a function
-function log_func(func_name, args_names, args) {
-    console.log("----");
-    var log_func_str = "Inside " + func_name + ". ";
-    for (var i = 0; i < args.length; i++) {
-        log_func_str += args_names[i] + " : " + args[i] + "; ";
-    }
-    console.log(log_func_str);
-}
-
-// debug logging for when we check a variable
-function log_var(num, variable_name, variable) {
-    console.log("--");
-    console.log("(" + num + ") " + variable_name + " : " + variable);
 }

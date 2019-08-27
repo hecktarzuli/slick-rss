@@ -1,14 +1,11 @@
 ﻿/**
  * Console log information about a function and its arguments.
  * 
- * @param {string} func_name
- *   Function name.
- * @param {string[]} args_names
- *   Array of argument names.
- * @param {mixed[]} args
- *   Array of variable arguments.
+ * @param {string} func_name - Function name.
+ * @param {string[]} args_names - Array of argument names.
+ * @param {mixed[]} args - Array of variable arguments.
  */
-function log_function(func_name, args_names, args) {
+function LogFunction(func_name, args_names, args) {
     console.log("----");
     var log_func_str = "Inside " + func_name + ". ";
     for (var i = 0; i < args.length; i++) {
@@ -20,24 +17,19 @@ function log_function(func_name, args_names, args) {
 /**
  * Console log information about a variable with a line flag.
  * 
- * @param {number} num
- *   Specified flag / line number for easy statement matching.
- * @param {string} variable_name
- *   Variable name being printed.
- * @param {mixed} variable
- *   Variable being printed.
+ * @param {number} num - Specified flag / line number for easy statement matching.
+ * @param {string} variable_name - Variable name being printed.
+ * @param {mixed} variable - Variable being printed.
  */
-function log_variable(num, variable_name, variable) {
+function LogVariable(num, variable_name, variable) {
     console.log("(" + num + ") " + variable_name + " : " + variable);
 }
 
 /**
  * Converts a text date to a Date object.
  * 
- * @param {string} txtDate
- *   Input text date.
- * @return {Date}
- *   Date object.
+ * @param {string} txtDate - Input text date.
+ * @return {Date} - Date object.
  */
 function GetDate(txtDate) {
     var myDate = new Date(txtDate);
@@ -53,12 +45,9 @@ function GetDate(txtDate) {
 /**
  * Formats a Date object to the specified custom format.
  * 
- * @param {Date} dt
- *   Input Date object.
- * @param {String} format
- *   Specified formatted Date output.
- * @return {String}
- *   Formatted date text.
+ * @param {Date} dt - Input Date object.
+ * @param {String} format - Specified formatted Date output.
+ * @return {String} - Formatted date text.
  */
 function FormatDate(dt, format) {
     var isLocal = true;
@@ -122,14 +111,16 @@ function FormatDate(dt, format) {
 }
 
 // FormatDate Helper --- adds 0 to a number if it's < 10
+// TODO - write comment
 function PadZero(num) {
     if (num < 10) {
         return "0" + num;
     }
     return num + "";
 }
- 
+
 // FormatDate Helper --- converts 24 hour clock into 12
+// TODO - write comment
 function Get12Hour(hour) {
     if (hour > 12) {
         return hour - 12;
@@ -139,8 +130,9 @@ function Get12Hour(hour) {
     }
     return hour;
 }
- 
+
 // FormatDate Helper --- gets the name of a month (0-11)
+// TODO - write comment
 function GetMonthName(month) {
     switch(month) {
         case 0: return "January";
@@ -158,8 +150,9 @@ function GetMonthName(month) {
         default: return "";
     }
 }
- 
+
 // FormatDate Helper --- gets a weekday name (0-6 = Sunday-Saturday)
+// TODO - write comment
 function GetWeekdayName(dayOfWeek) {
     switch(dayOfWeek) {
         case 0: return "Sunday";
@@ -174,6 +167,7 @@ function GetWeekdayName(dayOfWeek) {
 }
 
 // GetDate Helper --- convert an Atom-formatted date string to a javascript-compatible date string
+// TODO - write comment
 function ConvertAtomDateString(str) {
     //YYYY-MM-DDThh:mm:ss[.f*](Z|-hh:mm|+hh:mm)
     var atomFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+-]\d{2}:\d{2})$/i;
@@ -197,22 +191,32 @@ function ConvertAtomDateString(str) {
 }
 
 // gets a day suffix like st, th, nd
+// TODO - write comment
 function GetDaySuffix(number) {
-    if ((number > 3 && number < 21) || (number > 24 && number < 31)) {
-        return number + "th";
+    var ones_digit = number % 10,
+        tens_digit = number % 100;
+    if (ones_digit == 1 && tens_digit != 11) {
+        return number + "st";
     }
-    number = number + "";
-    switch(number.substr(number.length - 1, 1)) {
-        case "1" : return number + "st";
-        case "2" : return number + "nd";
-        case "3" : return number + "rd";
-        case "4" : return number + "th";
+    if (ones_digit == 2 && tens_digit != 12) {
+        return number + "nd";
     }
+    if (ones_digit == 3 && tens_digit != 13) {
+        return number + "rd";
+    }
+    return number + "th";
 }
 
 // If we're running under Node, 
 if (typeof exports !== 'undefined') {
+    exports.LogFunction = LogFunction;
+    exports.LogVariable = LogVariable;
+    exports.GetDate = GetDate;
+    exports.FormatDate = FormatDate;
+    exports.PadZero = PadZero;
+    exports.Get12Hour = Get12Hour;
     exports.GetMonthName = GetMonthName;
     exports.GetWeekdayName = GetWeekdayName;
-    exports.FormatDate = FormatDate;
+    exports.ConvertAtomDateString = ConvertAtomDateString;
+    exports.GetDaySuffix = GetDaySuffix;
 }

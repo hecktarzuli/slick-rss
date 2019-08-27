@@ -1,4 +1,14 @@
+// TODO - write comment
 function SetupScreen() {
+    /*
+    TODO - rename the bgPage.options variable name to what the display element is named
+        then you can simply do the following for loading all of them:
+        $("#" + option).val(bgPage.options[option]);
+    console.log(bgPage.options);
+    for (option in bgPage.options) {
+        console.log(option + ": " + bgPage.options[option]);
+    }
+    */
     document.getElementById("feedSource").selectedIndex = parseInt(bgPage.options.feedsource);
     FeedSourceChanged(); // changing index doesn't fire onchange :(
     document.getElementById("maxItems").value = bgPage.options.maxitems;
@@ -10,7 +20,7 @@ function SetupScreen() {
     document.getElementById("checkInterval").value = bgPage.options.checkinterval;
     document.getElementById("markReadAfter").value = bgPage.options.markreadafter;
     document.getElementById("markReadOnClick").selectedIndex = bgPage.options.markreadonclick;
-    document.getElementById("readItemDisplay").selectedIndex = bgPage.options.readitemdisplay;
+    $("#readItemDisplay").val(bgPage.options.readitemdisplay);
     document.getElementById("unreadTotalDisplay").selectedIndex = bgPage.options.unreadtotaldisplay;
     document.getElementById("unreadItemTotalDisplay").selectedIndex = bgPage.options.unreaditemtotaldisplay;
     document.getElementById("columns").selectedIndex = bgPage.options.columns - 1;
@@ -21,7 +31,7 @@ function SetupScreen() {
     
     chrome.bookmarks.getTree(FillFolderList);
     ShowDateSample(false);
-    document.getElementById("homePageURL").innerText = chrome.extension.getURL("viewer.html");
+    document.getElementById("homePageURL").innerText = chrome.extension.getURL("feeds.html");
     
     if (bgPage.snifferID != null) {
         document.getElementById("snifferInfo").innerText = bgPage.snifferName + " (v" + bgPage.snifferVersion + ")";
@@ -32,6 +42,11 @@ function SetupScreen() {
     }
 }
 
+/**
+ * Saves the state of all the fields in options.html to localstorage; redirects the user to feeds.html.
+ * 
+ * @return {void|null} - Returns prematurely if validation for #maxItems, #checkInterval, or #markReadAfter fail, void if successful.
+ */
 function Save() {
     var maxItems = document.getElementById("maxItems").value;
     
@@ -54,7 +69,7 @@ function Save() {
         alert("'Mark feed read after' seems invalid.  It's the number of seconds after you've viewed a feed before it's marked read.");
         return;
     }
-     
+
     bgPage.options.feedsource = document.getElementById("feedSource")[document.getElementById("feedSource").selectedIndex].value;
     bgPage.options.feedfolderid = document.getElementById("feedFolderID")[document.getElementById("feedFolderID").selectedIndex].value;
     bgPage.options.maxitems = parseInt(maxItems);
@@ -76,9 +91,9 @@ function Save() {
     bgPage.options.loadlinksinbackground = (document.getElementById("loadLinksInBackground").selectedIndex == 1)
     
     localStorage["options"] = JSON.stringify(bgPage.options);
-   
+
     if (!bgPage.options.readlaterenabled) {
-       delete localStorage["readlater"];
+        delete localStorage["readlater"];
     }
     
     bgPage.GetFeeds(function() {
@@ -86,19 +101,27 @@ function Save() {
         bgPage.CheckForUnreadStart();
         
     });
-    
-    window.close();
+
+    window.location = 'feeds.html';
 }
 
-// fills the folder dropdown 
+/**
+ * Callback for chrome.bookmarks.getTree(), populates the #feedFolderID dropdown with all of the user's bookmark folders.
+ * 
+ * @param {BookmarkTreeNode[]} nodes - Array of BookmarkTreeNodes, provided by chrome.bookmarks.getTree()
+ */
 function FillFolderList(nodes) {
     var folderList = document.getElementById("feedFolderID");
     var arr = [];
-    var option = null;
+    let option = null;
     
     GetBookmarkNodes(nodes[0], arr, "");
     
-    for (var i = 0;i < arr.length; i++) {
+    for (var i = 0; i < arr.length; i++) {
+        // TODO - try the below
+        // let folderID = arr[i][0];
+        // let folderName = arr[i][1];
+        // option = `<option value="${folderID}" ${folderID == bgPage.options.feedfolderid ? "selected" : ""}>${folderName}</option>`;
         option = document.createElement("option");
         option.setAttribute("value", arr[i][0]);
         option.innerHTML = arr[i][1];
@@ -111,7 +134,13 @@ function FillFolderList(nodes) {
     }
 }
 
-// recursively fills array with ids and titles of folders in the bookmark tree
+/**
+ * Recursively traverses the specified bookmark folder to modify arr with an array of pairs (BookmarkTreeNode id, BookmarkTreeNode title).
+ * 
+ * @param {BookmarkTreeNode[]} nodes - The current BookmarkTreeNode we are traversing.
+ * @param {*} arr - Array of detail pairs that gets modified with the tree structure.
+ * @param {*} depth - Shows the depth of the node we are examining with respect to the bookmark tree by adding 3 spaces for each additional level.
+ */
 function GetBookmarkNodes(node, arr, depth) { 
     for (var i = 0; i < node.children.length; i++) {
         if (node.children[i].url == null) {
@@ -125,16 +154,24 @@ function GetBookmarkNodes(node, arr, depth) {
     }
 }
 
+/**
+ * Hides #feedFolder if our feed source is "Slick RSS Feed Manager", displays if our feed source is "Bookmark Folder".
+ */
 function FeedSourceChanged() {
     document.getElementById("feedFolder").style.display = (document.getElementById("feedSource").selectedIndex == 0) ? "none" : "";
 }
 
+/**
+ * Transforms #dateFormat into its date markdown state, shows the "Done" button and the #dateHelp table when the user focusses on
+ *   the #dateFormat field.
+ */
 function EditDateFormat() {
-   document.getElementById("dateFormat").value = bgPage.options.dateformat; 
-   document.getElementById("dateHelp").style.display = "";
-   document.getElementById("dateDone").style.display = "";
+    document.getElementById("dateFormat").value = bgPage.options.dateformat; 
+    document.getElementById("dateHelp").style.display = "";
+    document.getElementById("dateDone").style.display = "";
 }
 
+// TODO - write comment
 function ShowDateSample(saveDate) {
     if (saveDate) {
         bgPage.options.dateformat = document.getElementById("dateFormat").value;

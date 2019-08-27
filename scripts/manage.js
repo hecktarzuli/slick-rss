@@ -1,3 +1,4 @@
+// TODO - write comment
 function Add() {
     var title = document.getElementById("newTitle").value;
     var url = document.getElementById("newUrl").value;
@@ -6,6 +7,7 @@ function Add() {
     var maxOrder = 0;
     var itemOrder = 0;
     
+    //  TODO - add better validation
     if (!IsValid(title, url, maxItems, order)) {
         return;
     }
@@ -24,10 +26,11 @@ function Add() {
     document.getElementById("newUrl").value = "";
 }
 
+// TODO - write comment
 function IsValid(title, url, maxItems, order) {
     if (title == "") {
         alert("A title is required.  Name it something useful like 'My Awesome Gaming News Feed'.");
-        return false;        
+        return false;
     }
     if (url == "") {
         alert("A URL is required.  It's the full HTTP path to your feed.");
@@ -46,7 +49,7 @@ function IsValid(title, url, maxItems, order) {
         return false;
     }
     if (order == "") {
-        alert("Order is required.  It's the order I'll display your feeds in the viewer.");
+        alert("Order is required.  It's the order I'll display your feeds.");
         return false;
     }
     if (!/^\d+$/.test(order)) {
@@ -56,59 +59,42 @@ function IsValid(title, url, maxItems, order) {
     return true;
 }
 
+/**
+ * Adds a new filled-out entry row to the list of fields.
+ * 
+ * @param {number} feedKey - Feed key to lookup in the feeds map.
+ */
 function AddRow(feedKey) {
-    var grid = null;
-    var row = null;
-    var input = null;
-    var button = null;
+    var inputStr = "<tr id='AddRow" + feedKey + "'>";
+    inputStr += "<td><input class='input' type='text' value='" + feeds[feedKey].title + "'></td>";
+    inputStr += "<td><input class='input' type='text' value='" + feeds[feedKey].url + "'></td>";    
+    inputStr += "<td><input class='input' type='text' value='" + feeds[feedKey].maxitems + "'></td>";
+    inputStr += "<td><input class='input' type='text' value='" + feeds[feedKey].order + "'></td>";
+    inputStr += "<td><button class='button is-danger' type='button' id='button" + feedKey + "'>Delete</button></td>";
 
-    grid = document.getElementById("feedGrid");
-    row = grid.insertRow(grid.rows.length);
-    row.setAttribute("id", feedKey);
-    
-    input = document.createElement('input');
-    input.setAttribute("type", "text");
-    input.setAttribute("class", "title");
-    input.setAttribute("value", feeds[feedKey].title);
-    
-    row.insertCell(0).appendChild(input);
-    
-    input = document.createElement('input');
-    input.setAttribute("type", "text");
-    input.setAttribute("class", "url");
-    input.setAttribute("value", feeds[feedKey].url);
-    
-    row.insertCell(1).appendChild(input);
-    
-    input = document.createElement('input');
-    input.setAttribute("type", "text");
-    input.setAttribute("class", "maxItems");
-    input.setAttribute("value", feeds[feedKey].maxitems);
-    
-    row.insertCell(2).appendChild(input);
-    
-    input = document.createElement('input');
-    input.setAttribute("type", "text");
-    input.setAttribute("class", "order");
-    input.setAttribute("value", feeds[feedKey].order);
-    
-    row.insertCell(3).appendChild(input);
-    
-    button = document.createElement("img");
-    button.setAttribute("src", "images/x.gif");
-    button.setAttribute("class", "delete");
-    
-    //var tmp = this.parentNode.parentNode;
-    
-    $(button).click({id:feedKey}, function(event) {
-        MarkDelete($('#' + event.data.id).get(0));
+    /*
+    FIXME - this template only works if all of the elements are on 1 line without spaces
+    let inputStr2 = `<tr id='AddRow${feedKey}'>
+        <td><input class='input' type='text' value='${feeds[feedKey].title}'></td>\
+        <td><input class='input' type='text' value='${feeds[feedKey].url}'></td>\
+        <td><input class='input' type='text' value='${feeds[feedKey].maxitems}'></td>\
+        <td><input class='input' type='text' value='${feeds[feedKey].order}'></td>\
+        <td><button class='button is-danger' type='button' id='button${feedKey}'>Delete</button></td>`;
+    */
+
+    $("#feedGrid tr:last").after(inputStr);
+    $("#button" + feedKey).click(function() {
+        MarkDelete($('#AddRow' + feedKey).get(0));
     });
-    //button.setAttribute("onclick", "MarkDelete(this.parentNode.parentNode);");
-    button.setAttribute("title", "Delete feed");
-    row.insertCell(4).appendChild(button);
 }
 
+/**
+ * Appends markDelete class to row that will be removed on Save().
+ * 
+ * @param {string} row - "AddRow" + feedKey, the row ID.
+ */
 function MarkDelete(row) {
+    LogFunction("MarkDelete", ["row"], [row]);
     var marked = (row.className == "markDelete");
     
     if (!marked) {
@@ -126,6 +112,9 @@ function MarkDelete(row) {
     row.childNodes[3].childNodes[0].disabled = !marked; // order
 }
 
+/**
+ * Deletes any rows tagged with the markDelete class and sends the user to feeds.html.
+ */
 function Save() {
     var row = null;
     var title;
@@ -143,14 +132,13 @@ function Save() {
             continue;
         }
         
-        row = document.getElementById(feedKey);
+        row = document.getElementById("AddRow" + feedKey);
         title = row.childNodes[0].childNodes[0].value;
         url = row.childNodes[1].childNodes[0].value;
         maxItems = row.childNodes[2].childNodes[0].value;
         order = row.childNodes[3].childNodes[0].value;
         
-        if (row.className != "markDelete" && !IsValid(title, url, maxItems, order))
-        {
+        if (row.className != "markDelete" && !IsValid(title, url, maxItems, order)) {
             row.className = "badRow";
             lastBadRow = row;
             return;
@@ -163,8 +151,8 @@ function Save() {
     }
     
     // delete feeds that are marked, start from end so indexes don't get screwed up
-    for (i = feeds.length - 1;i > 0;i--) {
-        row = document.getElementById(i);
+    for (i = feeds.length - 1; i > 0; i--) {
+        row = document.getElementById("AddRow" + i);
         
         if (row.className == "markDelete") {
             feeds.splice(i, 1);
@@ -173,18 +161,21 @@ function Save() {
 
     // remove read later feed
     feeds.splice(0,1);
-    localStorage["feeds"] = JSON.stringify(feeds);  
- 
+    localStorage["feeds"] = JSON.stringify(feeds);
+
     bgPage.UpdateSniffer();
     bgPage.CleanUpUnreadOrphans();
     
     // get feeds to re-order the feeds
     bgPage.GetFeeds(function() {
         bgPage.CheckForUnreadStart();
-        window.location = 'viewer.html';  
+        window.location = 'feeds.html';
     });
 }
 
+/**
+ * Populate the manage.html page with the currently stored feeds.
+ */
 function ShowFeeds() {
     var maxOrder = 0;
     var itemOrder = 0;

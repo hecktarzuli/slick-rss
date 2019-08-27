@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Pepper-Wood/slick-rss#readme",
   "dependencies": {
+    "bulma": "^0.7.5",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1"
   }

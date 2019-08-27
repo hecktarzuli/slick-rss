@@ -1,4 +1,5 @@
 // starts import
+// TODO - write comment
 function Import() {
     if (document.getElementById("opml").value == "") {
         alert("Nothing to import");
@@ -13,6 +14,7 @@ function Import() {
 }
 
 // imports opml -> bookmarks
+// TODO - write comment
 function ImportBookmarks(startNode) {
     var nodes = null;
     var importCount = 0;
@@ -40,6 +42,7 @@ function ImportBookmarks(startNode) {
 }
 
 // imports opml -> feed list
+// TODO - write comment
 function ImportFeeds() {
     var nodes = null;
     var importCount = 0;

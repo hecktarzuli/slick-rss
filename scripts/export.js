@@ -1,4 +1,5 @@
 // exports opml -> bookmarks
+// TODO - write comment
 function ExportBookmarks(startNode) {
     chrome.bookmarks.getChildren(startNode[0].id, function(nodes) {
         var opml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><opml version=\"2.0\">\n<head><title>Slick RSS OPML Export</title></head>\n<body>";
@@ -11,6 +12,7 @@ function ExportBookmarks(startNode) {
 }
 
 // imports opml -> feed list
+// TODO - write comment
 function ExportFeeds() {
     var opml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><opml version=\"2.0\">\n<head><title>Slick RSS OPML Export</title></head>\n<body>";
     for (var i = 0; i < bgPage.feeds.length;i++) {

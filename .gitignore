@@ -1,3 +1,5 @@
+.DS_Store
+
 # nyc test coverage
 .nyc_output
 

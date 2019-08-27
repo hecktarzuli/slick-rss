@@ -1,32 +1,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Slick RSS : Import Feeds</title>
-    <link rel="stylesheet" href="styles/common.css" type="text/css" />
-    <link rel="stylesheet" href="styles/import.css" type="text/css" />
+    <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" type="text/css" />
+    <style>
+    body {
+        background-color: #F4F7FA;
+    }
+    a.navbar-item.is-active {
+        background-color: #fafafa !important;
+        color: #3273dc;
+    }
+    .title.is-6 {
+        border-bottom: 1px solid #d4d7d9;
+    }
+    </style>
     <script type="text/javascript" src="scripts/util/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="scripts/import.js"></script>
     <script type="text/javascript" src="scripts/import_render.js"></script>
 </head>
 <body>
 
-<table id="header" cellpadding="5" cellspacing="0" border="0">
-    <tr>
-        <td></td>
-        <td>Import Feeds</td>
-        <td><a href="#" id='import'>Import</a> | <a href="#" id='cancel'>Cancel</a></td>
-    </tr>
-</table>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="feeds.html">
+            <img src="images/rss.svg" width="30" height="30"> <b>SLICK-RSS</b>
+        </a>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
 
-<div id="workArea">
-    <form>
-        Copy and paste your OPML file contents into the textbox below.
-        <br />
-        <br />
-        <textarea id="opml"></textarea>
-        <br />
-    </form>
-</div>
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="export.html">Export</a>
+            <a class="navbar-item is-active" href="import.html" disabled>Import</a>
+            <a class="navbar-item" href="manage.html">Manage</a>
+            <a class="navbar-item" href="options.html">Options</a>
+            <a class="navbar-item" href="feeds.html">Feeds</a>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">Import</h1>
+        <div class="box">
+            <div class="field">
+                <label class="label">OPML File Contents</label>
+                <div class="control">
+                    <textarea class="textarea" id="opml" placeholder="Copy and paste your OPML file contents"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" id="import">Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <a href="https://github.com/Pepper-Wood/slick-rss/issues">Contact Support</a> | <a href="https://github.com/Pepper-Wood/slick-rss">View Source</a>
+        </p>
+    </div>
+</footer>
 
 </body>
 </html>

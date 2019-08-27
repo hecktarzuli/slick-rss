@@ -4,8 +4,12 @@ var feeds = bgPage.feeds;
 var lastBadRow = null;
 
 $(document).ready(function() {
-    $('#save').click(function(){Save();});
-    $('#add').click(function(){Add();});
+    $('#manageSave').click(function() {
+        Save();
+    });
+    $('#add').click(function() {
+        Add();
+    });
 });
 
 window.onload = ShowFeeds;

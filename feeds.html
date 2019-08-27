@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slick RSS : View Feeds</title>
+    <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" type="text/css" />
+    <style>
+    body {
+        background-color: #F4F7FA;
+    }
+    a.navbar-item.is-active {
+        background-color: #fafafa !important;
+        color: #3273dc;
+    }
+    .title.is-6 {
+        border-bottom: 1px solid #d4d7d9;
+    }
+    table td, table tr {
+        border: 1px solid #dbdbdb;
+    }
+    .box {
+        padding: 0;
+    }
+    .message-body {
+        background-color: #FFFFFF;
+    }
+    .feedUnreadTag {
+        margin-left: 5px;
+    }
+    .feedPreviewReadLater {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background-color: rgba(10,10,10,.2) !important;
+        border: none;
+        border-radius: 290486px;
+        cursor: pointer;
+        pointer-events: auto;
+        display: inline-block;
+        flex-grow: 0;
+        flex-shrink: 0;
+        font-size: 0;
+        height: 20px;
+        max-height: 20px;
+        max-width: 20px;
+        min-height: 20px;
+        min-width: 20px;
+        outline: 0;
+        position: relative;
+        vertical-align: top;
+        width: 20px;
+    }
+    .feedPreviewReadLater:hover, .feedPreviewReadLater:focus {
+        background-color: rgba(10, 10, 10, 0.3);
+    }
+
+    /* TODO - change this to append is-light to message instead */
+    .feedPreviewContainerGray {
+        background-color: #fafafa !important;
+    }
+    .feedPreviewContainerGray .message-header {
+        background-color: #f5f5f5 !important;
+        color: #363636 !important;
+    }
+    .feedPreviewContainerGray .message-header>button, .feedPreviewContainerGray .message-header>img {
+        display: none !important;
+    }
+
+    /* TODO - change this to append is-hidden to message instead */
+    .feedPreviewContainerHidden {
+        display: none !important;
+    }
+
+    /* TODO - add is-hidden to the message body, although this works too */
+    .feedPreviewContainerCondensed .message-body {
+        display: none !important;
+    }
+    .feedPreviewContainerCondensed .message-header>button, .feedPreviewContainerCondensed .message-header>img {
+        display: none !important;
+    }
+
+    #feedsLoadingProgress {
+        display: none;
+        border-radius: 0;
+        margin: 0;
+        height: 0.25rem;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 31;
+    }
+    progress[value]::-webkit-progress-bar {
+        background-color: #F4F7FA;
+    }
+    progress[value]::-webkit-progress-value {
+        transition: width 0.5s;
+    }
+    </style>
+    <script type="text/javascript" src="scripts/util/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="scripts/util/md5.js"></script>
+    <script type="text/javascript" src="scripts/common.js"></script>
+    <script type="text/javascript" src="scripts/feeds.js"></script>
+    <script type="text/javascript" src="scripts/feeds_render.js"></script>
+</head>
+<body>
+
+<progress id="feedsLoadingProgress" class="progress is-primary" value="0" max="100"></progress>
+<div class="tabs is-centered">
+    <ul>
+        <a href="export.html">Export</a>
+        <a href="import.html">Import</a>
+        <a href="manage.html">Manage</a>
+        <a href="options.html">Options</a>
+        <li class="is-active"><a href="feeds.html" disabled>Feeds</a></li>
+    </ul>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div id="feedList" class="buttons has-addons"></div>
+        <h1 id="headerFeedTitle" class="title"></h1>
+        <h2 id="headerFeedDescription" class="subtitle"></h2>
+        <div class="buttons" id="optionsButtons">
+            <a class="button is-primary" id="refreshButton"><strong>Refresh Current Feed</strong></a>
+            <a class="button is-primary is-outlined" id="refreshAll"><strong>Refresh All Feeds</strong></a>
+            <a class="button is-link" id="markFeedReadButton"><strong>Mark Current Feed Read</strong></a>
+            <a class="button is-link is-outlined" id="markAllRead"><strong>Mark All Feeds Read</strong></a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div id="noFeedsManaged" style="display:none;">
+            <br />
+            You have no feeds. Now is a great time to add some.
+            <br />
+            <br />
+            <button type="button" id='addFeeds'>Add Feeds</button>
+        </div>
+        <div id="noFeedsBookmarks" style="display:none;">
+            <br />
+            Uh oh, I don't see any bookmarks here. Since you are using a bookmark folder, I'd go back into options and check that. Or you could add bookmarks to it :)
+            <br />
+            <br />
+        </div>
+        <div id="feedError" style="display:none;">
+            <br />
+            The feed selected seems to be invalid. Please check the URL.
+            <br />
+            <br />
+            Nerdy Details
+            <br />
+            <span id="feedErrorMessage"></span>
+            </span>
+        </div>
+        <div id="noItems" style="display:none;">
+            <br />
+            There are no items in this feed.
+        </div>
+        <div id="feedPreviewScroller">
+            <div id="feedPreview"></div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <a href="https://github.com/Pepper-Wood/slick-rss/issues">Contact Support</a> | <a href="https://github.com/Pepper-Wood/slick-rss">View Source</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

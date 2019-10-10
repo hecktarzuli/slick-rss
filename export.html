@@ -1,70 +1,42 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Slick RSS : Export Feeds</title>
-    <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" type="text/css" />
-    <style>
-    body {
-        background-color: #F4F7FA;
-    }
-    a.navbar-item.is-active {
-        background-color: #fafafa !important;
-        color: #3273dc;
-    }
-    .title.is-6 {
-        border-bottom: 1px solid #d4d7d9;
-    }
-    </style>
-    <script type="text/javascript" src="scripts/util/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="scripts/export.js"></script>
-    <script type="text/javascript" src="scripts/export_render.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slick RSS : Export Feeds</title>
+  <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" type="text/css" />
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <script type="text/javascript" src="scripts/util/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="scripts/export.js"></script>
+  <script type="text/javascript" src="scripts/export_render.js"></script>
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="feeds.html">
-            <img src="images/rss.svg" width="30" height="30"> <b>SLICK-RSS</b>
-        </a>
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item is-active" href="export.html" disabled>Export</a>
-            <a class="navbar-item" href="import.html">Import</a>
-            <a class="navbar-item" href="manage.html">Manage</a>
-            <a class="navbar-item" href="options.html">Options</a>
-            <a class="navbar-item" href="feeds.html">Feeds</a>
-        </div>
-    </div>
-</nav>
+<div class="tabs is-centered">
+  <ul>
+    <li class="is-active"><a href="export.html" disabled>Export</a></li>
+    <li><a href="import.html">Import</a></li>
+    <li><a href="manage.html">Manage</a></li>
+    <li><a href="options.html">Options</a></li>
+    <li><a href="feeds.html">Feeds</a></li>
+  </ul>
+</div>
 
 <section class="section">
-    <div class="container">
-        <h1 class="title">Export</h1>
-        <div class="box">
-            <div class="field">
-                <label class="label">Here is an OPML export of your feed data.</label>
-                <div class="control">
-                    <textarea class="textarea" id="opml"></textarea>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <h1 class="title">Export</h1>
+    <div class="field">
+      <label class="label">Here is an OPML export of your feed data.</label>
+      <div class="control">
+        <textarea class="textarea" id="opml"></textarea>
+      </div>
     </div>
+  </div>
 </section>
 
 <footer class="footer">
-    <div class="content has-text-centered">
-        <p>
-            <a href="https://github.com/Pepper-Wood/slick-rss/issues">Contact Support</a> | <a href="https://github.com/Pepper-Wood/slick-rss">View Source</a>
-        </p>
-    </div>
+  <div class="content has-text-centered">
+    <p><a href="https://github.com/Pepper-Wood/slick-rss/issues">Contact Support</a> | <a href="https://github.com/Pepper-Wood/slick-rss">View Source</a></p>
+  </div>
 </footer>
 
 </body>
